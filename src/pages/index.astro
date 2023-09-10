@@ -1,0 +1,66 @@
+---
+import Layout from "$layouts/BaseLayout.astro";
+import { Image } from "astro:assets";
+const number = 1200;
+const response = await fetch(
+  `${import.meta.env.PUBLIC_POKEAPI}/pokemon?limit=${number}`
+);
+const result = await response.json();
+const pokemons = result.results.map((pokemon) => {
+  const name = pokemon.name;
+  const url = pokemon.url;
+  const id = url.split("/")[url.split("/").length - 2];
+  return {
+    name,
+    url,
+    id,
+  };
+});
+---
+
+<Layout title="Astro Pokedex" description="Astro Pokedex built with astro">
+  <section>
+    <ul>
+      {
+        pokemons.map((pokemon) => (
+          <li id={pokemon.id} data-key={pokemon.name}>
+            <a href={`/pokemon/${pokemon.name}`}>
+              <Image
+                src={`${
+                  import.meta.env.PUBLIC_POKEAPI_IMAGE_NEW
+                }/other/dream-world/${pokemon.id}.svg`}
+                width="250"
+                height="250"
+                alt={`Pokemon - ${pokemon.name}`}
+              />
+              <h2>{pokemon.name}</h2>
+            </a>
+          </li>
+        ))
+      }
+    </ul>
+  </section>
+</Layout>
+
+<style lang="scss">
+  ul {
+    list-style: none;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-evenly;
+    padding: 0;
+    li {
+      flex-basis: calc(25% - 155px);
+      border-radius: 5px;
+      text-align: center;
+      &:not(:last-child) {
+        padding: 15px;
+      }
+      a {
+        color: inherit;
+        text-decoration: none;
+        text-transform: capitalize;
+      }
+    }
+  }
+</style>

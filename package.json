@@ -1,0 +1,17 @@
+{
+  "name": "astro-pokedex",
+  "type": "module",
+  "version": "0.0.1",
+  "scripts": {
+    "dev": "astro dev",
+    "start": "astro dev",
+    "build": "astro build",
+    "preview": "astro preview",
+    "astro": "astro"
+  },
+  "dependencies": {
+    "@astrojs/netlify": "^3.0.1",
+    "astro": "^3.0.12",
+    "sass": "^1.66.1"
+  }
+}

@@ -1,0 +1,161 @@
+---
+import { Image } from "astro:assets";
+const { name, imgSrc, weight, height, pid, ability, stat, type } = Astro.props;
+---
+
+<span class="content"><p>Pokémon</p><p>#{pid}</p></span>
+<button transition:persist><a href="/">&#x2190; Back</a></button>
+<article>
+  <div>
+    <h2>{name}</h2>
+    <section class="content__details">
+      <p>Details :</p>
+      <div>
+        About :
+        <ul>
+          <li>Height : {height}</li>
+          <li>Weight : {weight}</li>
+        </ul>
+      </div>
+      <div>
+        Type :
+        <ul>
+          {type.map(({ type }) => <li>{type.name}</li>)}
+        </ul>
+      </div>
+      <div>
+        Stats :
+        <ul class="stats">
+          {
+            stat.map((stat) => (
+              <li>
+                {stat.stat.name} - {stat.base_stat}
+              </li>
+            ))
+          }
+        </ul>
+      </div>
+      <div>
+        Abilities :
+        <ul>
+          {ability.map(({ ability }) => <li>{ability.name}</li>)}
+        </ul>
+      </div>
+    </section>
+  </div>
+  <div>
+    <Image src={imgSrc} alt={`Pokemon - ${name}`} width="400" height="400" />
+  </div>
+</article>
+
+<style lang="scss">
+  button {
+    background: none;
+    border: none;
+    font-size: 1.2rem;
+    a {
+      text-decoration: none;
+    }
+  }
+  article {
+    display: flex;
+    justify-content: space-between;
+    margin: 2rem auto;
+    @media only screen and (min-width: 1024px) {
+      align-items: center;
+    }
+    @media only screen and (max-width: 1023px) {
+      flex-direction: column !important;
+    }
+    div:not(:first-child) {
+      flex-basis: 50%;
+    }
+  }
+  span {
+    align-items: center;
+    display: flex;
+    justify-content: space-between;
+  }
+  p {
+    font-size: 1.5rem;
+    line-height: 2rem;
+    font-weight: 600;
+    opacity: 0.7;
+  }
+  h2 {
+    text-transform: capitalize;
+    font-size: 6rem;
+    line-height: 1;
+    font-weight: 600;
+    opacity: 0.7;
+    font-family: inherit;
+    @media only screen and (max-width: 1023px) {
+      font-size: 3rem;
+    }
+  }
+  ul {
+    padding-left: 10px;
+    li {
+      text-transform: capitalize;
+      list-style: none;
+      &::before {
+        content: "✅";
+        margin-right: 5px;
+      }
+      &:not(:last-child) {
+        padding-bottom: 8px;
+      }
+    }
+  }
+  img {
+    box-shadow: 0px 8px 20px 0px #6c77821a;
+    background-color: #ffffffb3;
+    backdrop-filter: blur(12px);
+    padding: 0.75rem;
+    border-radius: 0.75rem;
+    flex-direction: column;
+    height: 18rem;
+    display: flex;
+    aspect-ratio: 1 / 1;
+    @media only screen and (max-width: 1023px) {
+      width: 100%;
+      height: auto;
+      padding: 0;
+    }
+  }
+
+  @media only screen and (min-width: 1024px) {
+    .content {
+      margin: 2rem auto;
+      &__details {
+        div {
+          margin: 2rem auto;
+        }
+      }
+    }
+    h2 {
+      padding-bottom: 16px;
+    }
+  }
+  @media only screen and (max-width: 1023px) {
+    .content {
+      margin: 1rem auto;
+      &__details {
+        div {
+          margin: 1rem auto;
+        }
+      }
+    }
+    h2 {
+      padding-bottom: 12px;
+    }
+    ul:not(.stats) {
+      display: flex;
+      justify-content: flex-start;
+      flex-wrap: wrap;
+      li:not(:first-of-type) {
+        margin-left: 10px;
+      }
+    }
+  }
+</style>

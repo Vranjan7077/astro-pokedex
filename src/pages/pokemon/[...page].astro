@@ -1,0 +1,36 @@
+---
+import Layout from "$layouts/BaseLayout.astro";
+import Card from "$components/Pokecard.astro";
+const { page } = Astro.params;
+const res = await fetch(`${import.meta.env.PUBLIC_POKEAPI}/pokemon/${page}`);
+const data = await res.json();
+---
+
+<Layout title={`Pokemon - ${data.name.toUpperCase()}`}>
+  <section>
+    <Card
+      imgSrc={data.sprites.other.dream_world.front_default}
+      pid={data.id}
+      weight={data.weight}
+      height={data.height}
+      name={data.name}
+      ability={data.abilities}
+      stat={data.stats}
+      type={data.types}
+    />
+  </section>
+</Layout>
+
+<style lang="scss">
+  section {
+    --max-width: 70rem;
+    --padding: 2.5rem * 2;
+    @media only screen and (max-width: 1023px) {
+      --padding: 1rem * 2;
+    }
+    margin-left: auto;
+    margin-right: auto;
+    width: min(100% - 1rem * 2, 64rem);
+    width: min(100% - var(--padding), var(--max-width));
+  }
+</style>
